@@ -1,0 +1,6 @@
+---
+- name: Install Nexus Repository Manager
+  hosts: nexus
+  roles:
+    - nexus
+...

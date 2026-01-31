@@ -1,0 +1,16 @@
+---
+- name: Install Nexus systemd service
+  ansible.builtin.template:
+    src: nexus.service.j2
+    dest: /etc/systemd/system/nexus.service
+    mode: "0664"
+  notify:
+    - Reload systemd
+    - Restart Nexus
+
+- name: Ensure Nexus service is enabled and started
+  ansible.builtin.systemd:
+    name: nexus
+    enabled: true
+    state: started
+...

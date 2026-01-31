@@ -1,0 +1,13 @@
+---
+- name: Install Nexus binaries and directories
+  ansible.builtin.import_tasks: install.yml
+
+- name: Configure Nexus systemd service
+  ansible.builtin.import_tasks: systemd.yml
+
+- name: Restart Nexus and validate health
+  ansible.builtin.import_tasks: healthcheck.yml
+
+- name: Handle rollback on failure
+  ansible.builtin.import_tasks: rollback.yml
+...

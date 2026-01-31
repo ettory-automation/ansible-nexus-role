@@ -1,0 +1,26 @@
+---
+- name: Wait for Nexus port to be open
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: "{{ nexus_port }}"
+    state: started
+    timeout: 180
+
+- name: Wait for Nexus to respond to health check
+  ansible.builtin.uri:
+    url: "http://127.0.0.1:{{ nexus_port }}/service/rest/v1/status"
+    method: GET
+    return_content: true
+    status_code: 200
+    timeout: 5
+  register: nexus_health
+  until: nexus_health.status | default(0) == 200
+  retries: 20
+  delay: 15
+  ignore_errors: true
+
+- name: Fail if Nexus is still not healthy
+  ansible.builtin.fail:
+    msg: "Nexus health check failed"
+  when: nexus_health.status | default(0) != 200
+...

@@ -1,0 +1,48 @@
+---
+- name: Capture current Nexus version
+  ansible.builtin.stat:
+    path: "{{ nexus_current_link }}"
+  register: nexus_current
+
+- block:
+    - name: Restart Nexus after upgrade
+      ansible.builtin.systemd:
+        name: nexus
+        state: restarted
+
+    - name: Run healthcheck
+      ansible.builtin.import_tasks: healthcheck.yml
+
+  rescue:
+    - name: Rollback Nexus symlink
+      ansible.builtin.file:
+        src: "{{ nexus_current.stat.lnk_source }}"
+        dest: "{{ nexus_current_link }}"
+        state: link
+      when:
+        - nexus_current.stat.exists
+        - nexus_current.stat.islnk
+
+    - name: Stopping Nexus
+      ansible.builtin.systemd:
+        name: nexus
+        state: stopped
+
+    - name: Restart Nexus after rollback
+      ansible.builtin.systemd:
+        name: nexus
+        state: started
+        enabled: true
+      notify: Restart Nexus
+
+    - name: Log rollback event
+      ansible.builtin.lineinfile:
+        path: /var/log/nexus-upgrade.log
+        line: "Rollback executed at {{ ansible_date_time.iso8601 }} - Restored version: {{ nexus_current.stat.lnk_source }}"
+        create: true
+        mode: '0644'
+
+    - name: Fail play after rollback
+      ansible.builtin.fail:
+        msg: "Nexus upgrade failed. Rollback executed."
+...

@@ -1,0 +1,22 @@
+[Unit]
+Description=Nexus Repository Manager
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+LimitNOFILE=65536
+User={{ nexus_user }}
+Group={{ nexus_user }}
+
+ExecStart={{ nexus_current_link }}/bin/nexus start
+ExecStop={{ nexus_current_link }}/bin/nexus stop
+Restart=on-failure
+RestartSec=10
+TimeoutSec=600
+
+Environment="JAVA_OPTS={{ nexus_java_opts }}"
+WorkingDirectory={{ nexus_current_link }}
+
+[Install]
+WantedBy=multi-user.target
