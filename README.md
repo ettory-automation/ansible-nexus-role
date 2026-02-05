@@ -1,5 +1,15 @@
 # Ansible Role: Nexus Repository Manager
 
+<br>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ettory-automation/skill-icons/main/icons/nexus-sonatype.svg" width="250"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/ettory-automation/skill-icons/main/icons/Ansible.svg" width="80"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/ettory-automation/skill-icons/main/icons/jinja2-simple.svg" width="80"/>&nbsp;&nbsp;&nbsp;
+</p>
+
+<br>
+
 Installs and manages [Sonatype Nexus Repository Manager](https://www.sonatype.com/nexus-repository-sonatype) on Linux hosts. Includes installation, directories setup, systemd service, and health checks via API.
 
 ---
