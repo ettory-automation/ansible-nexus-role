@@ -12,18 +12,18 @@
 
 Installs and manages [Sonatype Nexus Repository Manager](https://www.sonatype.com/nexus-repository-sonatype) on Linux hosts. Includes installation, directories setup, systemd service, and health checks via API.
 
----
+<br>
 
-## Requirements
+## ✅ Requirements
 
 - Linux OS (Ubuntu/Debian/CentOS/RHEL)
 - Ansible >= 3.0
 - Python 3
 - SSH access with sudo privileges
 
----
+<br>
 
-## Variables
+## ⚙️ Variables
 
 ### Defaults (`roles/nexus/defaults/main.yml`)
 
@@ -43,18 +43,18 @@ Installs and manages [Sonatype Nexus Repository Manager](https://www.sonatype.co
 
 > You can override variables in `vars/main.yml` if needed.
 
----
+<br>
 
-## Task Structure
+## 📐 Task Structure
 
 - `install.yml` – Create user, directories, download/extract Nexus, install systemd service.  
 - `systemd.yml` – Configure and enable the systemd service.  
 - `healthcheck.yml` – Verify Nexus responds via REST API (`/service/rest/v1/status`).  
 - `rollback.yml` – Optional rollback tasks in case of failed upgrade or installation.
 
----
+<br>
 
-## Usage
+## ⚡ Usage
 
 Example playbook (`playbooks/nexus.yml`):
 
@@ -67,7 +67,9 @@ Example playbook (`playbooks/nexus.yml`):
 ...
 ```
 
-## Notes / Best Practices
+<br>
+
+## 🗒️ Notes / Best Practices
 
 * Role is idempotent: re-running will not break existing installation.
 * Health check retries can be tuned with retries and delay in healthcheck.yml.
